@@ -167,7 +167,9 @@ class ModelTrainer:
             # This 'evaluate_models' expects to return a dictionary of model_name: metric_score
             model_report: dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test,
                                                  models=models, param=params)
-
+            print("\nModel Report (Test F1-Scores):")
+            print(model_report)
+            print("-------------------------------")
             ## To get best model score from dict
             # We are optimizing for F1-score, so we pick the max F1-score
             best_model_score = max(sorted(model_report.values()))
