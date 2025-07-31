@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Placement Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        .result-box {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-input {
+            transition: all 0.3s ease-in-out;
+            border-color: #d1d5db;
+        }
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl p-8 max-w-xl w-full">
+        <h1 class="text-4xl font-bold text-gray-800 text-center mb-6">Student Placement Predictor</h1>
+        
+        <form action="{{ url_for('predict_datapoint') }}" method="post" class="space-y-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="iq" class="block text-sm font-medium text-gray-700">IQ Score</label>
+                    <input type="number" step="0.01" name="iq" id="iq" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="prev_sem_result" class="block text-sm font-medium text-gray-700">Previous Semester Result</label>
+                    <input type="number" step="0.01" name="prev_sem_result" id="prev_sem_result" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="cgpa" class="block text-sm font-medium text-gray-700">CGPA</label>
+                    <input type="number" step="0.01" name="cgpa" id="cgpa" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="academic_performance" class="block text-sm font-medium text-gray-700">Academic Performance (1-10)</label>
+                    <input type="number" step="1" name="academic_performance" id="academic_performance" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="extra_curricular_score" class="block text-sm font-medium text-gray-700">Extra Curricular Score (0-10)</label>
+                    <input type="number" step="1" name="extra_curricular_score" id="extra_curricular_score" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="communication_skills" class="block text-sm font-medium text-gray-700">Communication Skills (1-10)</label>
+                    <input type="number" step="1" name="communication_skills" id="communication_skills" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="projects_completed" class="block text-sm font-medium text-gray-700">Projects Completed (0-5)</label>
+                    <input type="number" step="1" name="projects_completed" id="projects_completed" required 
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                </div>
+                <div>
+                    <label for="internship_experience" class="block text-sm font-medium text-gray-700">Internship Experience</label>
+                    <select name="internship_experience" id="internship_experience" required 
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 form-input">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-center">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out shadow-lg">
+                    Predict Placement
+                </button>
+            </div>
+        </form>
+
+        {% if results %}
+        <div class="result-box mt-8 p-6 rounded-lg text-center shadow-lg {{ 'bg-green-100 text-green-800' if results == 'Yes' else 'bg-red-100 text-red-800' }}">
+            <h2 class="text-2xl font-bold mb-2">Prediction Result:</h2>
+            <p class="text-4xl font-extrabold">
+                {{ results }}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
